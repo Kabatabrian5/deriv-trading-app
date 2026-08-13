@@ -1,74 +1,57 @@
 'use client';
 
-import { useState } from 'react';
-import { Shield, ArrowRight, UserPlus, LogIn } from 'lucide-react';
+import React from 'react';
+import { getDerivLoginUrl } from '@/config/deriv';
 
 export default function AuthPage() {
-  const [isSignUp, setIsSignUp] = useState(false);
-
-  const handleAction = () => {
-    const APP_ID = '34668T5a68zUtQACHU0u5';
-    const REDIRECT_URL = 'https://deriv-trading-app.vercel.app/app';
-
-    if (isSignUp) {
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}&prompt=registration`;
-    } else {
-      // Points straight to Deriv's authorization handshake which generates the consent challenge
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}`;
-    }
+  const handleAuthorizeWithDeriv = () => {
+    // This redirects the user directly to Deriv's official OAuth authorization screen
+    window.location.href = getDerivLoginUrl();
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4">
-      <div className="absolute w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl relative z-10">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 mb-4 border border-blue-500/30">
-            <Shield className="w-6 h-6" />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#07090e] text-slate-200 font-mono">
+      <div className="w-full max-w-md p-8 bg-[#0f131f] border border-slate-800/80 rounded-2xl shadow-2xl text-center">
+        
+        {/* Shield Icon Header */}
+        <div className="flex justify-center mb-6">
+          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            {isSignUp ? 'Create your Deriv Account' : 'Sign In to AlgoNex'}
-          </h1>
-          <p className="text-slate-400 text-sm mt-2">
-            {isSignUp 
-              ? 'Register a new account via official Deriv gateway.' 
-              : 'Authorize securely via Deriv OAuth to access your dashboard.'}
-          </p>
         </div>
 
-        <div className="flex bg-slate-950 p-1 rounded-xl mb-8 border border-slate-800">
-          <button
-            onClick={() => setIsSignUp(false)}
-            className={`flex-1 py-3 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
-              !isSignUp ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <LogIn className="w-4 h-4" /> Sign In
-          </button>
-          <button
-            onClick={() => setIsSignUp(true)}
-            className={`flex-1 py-3 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${
-              isSignUp ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <UserPlus className="w-4 h-4" /> Sign Up
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          <button
-            onClick={handleAction}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 group"
-          >
-            <span>{isSignUp ? 'Proceed to Deriv Sign Up' : 'Authorize with Deriv'}</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-
-        <p className="text-center text-xs text-slate-500 mt-8">
-          Secured with official Deriv OAuth API integration.
+        <h1 className="text-xl font-bold text-white mb-2 tracking-wide">Sign In to Algonex</h1>
+        <p className="text-xs text-slate-400 mb-8 leading-relaxed">
+          Authorize securely via Deriv OAuth to access your dashboard.
         </p>
+
+        {/* Action Tabs/Buttons */}
+        <div className="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-800 mb-6">
+          <button className="py-2.5 text-xs font-semibold text-white bg-blue-600 rounded-lg shadow">
+            Sign In
+          </button>
+          <button className="py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors">
+            Sign Up
+          </button>
+        </div>
+
+        {/* Deriv Authorization Button */}
+        <button
+          onClick={handleAuthorizeWithDeriv}
+          className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center space-x-2 mb-6"
+        >
+          <span>Authorize with Deriv</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+
+        <div className="text-[11px] text-slate-500 tracking-wider uppercase">
+          Secured with official Deriv OAuth API integration.
+        </div>
+
       </div>
     </div>
   );
