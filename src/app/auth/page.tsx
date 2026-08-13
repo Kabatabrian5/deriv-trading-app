@@ -1,58 +1,77 @@
 'use client';
 
-import React from 'react';
-import { getDerivLoginUrl } from '@/config/deriv';
+import { useState } from 'react';
+import { DERIV_CONFIG } from '@/config/deriv';
 
 export default function AuthPage() {
-  const handleAuthorizeWithDeriv = () => {
-    // This redirects the user directly to Deriv's official OAuth authorization screen
-    window.location.href = getDerivLoginUrl();
+  const [loading, setLoading] = useState(false);
+
+  const handleDerivLogin = async () => {
+    try {
+      setLoading(true);
+
+      // 1. Generate a random code_verifier for PKCE
+      const array = new Uint8Array(64);
+      window.crypto.getRandomValues(array);
+      const codeVerifier = Array.from(array)
+        .map((v) => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'[v % 66])
+        .join('');
+
+      // 2. Derive the code_challenge using SHA-256
+      const encoder = new TextEncoder();
+      const data = encoder.encode(codeVerifier);
+      const digest = await window.crypto.subtle.digest('SHA-256', data);
+      
+      const codeChallenge = btoa(String.fromCharCode(...new Uint8Array(digest)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+      // 3. Generate a random state for security
+      const stateArray = new Uint8Array(16);
+      window.crypto.getRandomValues(stateArray);
+      const state = Array.from(stateArray)
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+
+      // 4. Save verifier and state in sessionStorage for the callback page
+      sessionStorage.setItem('pkce_code_verifier', codeVerifier);
+      sessionStorage.setItem('oauth_state', state);
+
+      // 5. Construct the official Deriv OAuth 2.0 authorization URL
+      const authUrl = new URL(DERIV_CONFIG.auth_url);
+      authUrl.searchParams.append('response_type', 'code');
+      authUrl.searchParams.append('client_id', DERIV_CONFIG.app_id);
+      authUrl.searchParams.append('redirect_uri', DERIV_CONFIG.redirect_uri);
+      authUrl.searchParams.append('scope', 'trade account_manage application_read');
+      authUrl.searchParams.append('state', state);
+      authUrl.searchParams.append('code_challenge', codeChallenge);
+      authUrl.searchParams.append('code_challenge_method', 'S256');
+
+      // Redirect user to Deriv's official login & consent screen
+      window.location.href = authUrl.toString();
+    } catch (error) {
+      console.error('OAuth initialization error:', error);
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#07090e] text-slate-200 font-mono">
-      <div className="w-full max-w-md p-8 bg-[#0f131f] border border-slate-800/80 rounded-2xl shadow-2xl text-center">
-        
-        {/* Shield Icon Header */}
-        <div className="flex justify-center mb-6">
-          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-          </div>
-        </div>
-
-        <h1 className="text-xl font-bold text-white mb-2 tracking-wide">Sign In to Algonex</h1>
-        <p className="text-xs text-slate-400 mb-8 leading-relaxed">
-          Authorize securely via Deriv OAuth to access your dashboard.
+    <main className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-white p-6">
+      <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl text-center">
+        <h1 className="text-2xl font-bold mb-2">Connect to Algonex</h1>
+        <p className="text-slate-400 text-sm mb-6">
+          Authorize your Deriv account securely using OAuth 2.0.
         </p>
-
-        {/* Action Tabs/Buttons */}
-        <div className="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-800 mb-6">
-          <button className="py-2.5 text-xs font-semibold text-white bg-blue-600 rounded-lg shadow">
-            Sign In
-          </button>
-          <button className="py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-            Sign Up
-          </button>
-        </div>
-
-        {/* Deriv Authorization Button */}
+        
         <button
-          onClick={handleAuthorizeWithDeriv}
-          className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center space-x-2 mb-6"
+          onClick={handleDerivLogin}
+          disabled={loading}
+          className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all shadow-lg shadow-red-600/20 disabled:opacity-50"
         >
-          <span>Authorize with Deriv</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
+          {loading ? 'Connecting to Deriv...' : 'Authorize with Deriv'}
         </button>
-
-        <div className="text-[11px] text-slate-500 tracking-wider uppercase">
-          Secured with official Deriv OAuth API integration.
-        </div>
-
       </div>
-    </div>
+    </main>
   );
 }
