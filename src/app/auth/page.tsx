@@ -7,16 +7,14 @@ export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleAction = () => {
-    // Your Deriv App ID configuration
     const APP_ID = '34668T5a68zUtQACHU0u5';
     const REDIRECT_URL = 'https://deriv-trading-app.vercel.app/app';
 
     if (isSignUp) {
-      // Redirect to Deriv dashboard signup/registration flow
-      window.location.href = `https://home.deriv.com/dashboard/signup?residence=ke&app_id=${APP_ID}`;
+      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}&prompt=registration`;
     } else {
-      // Redirect to Deriv OAuth login / consent gateway matching your app client credentials
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}&response_type=token`;
+      // Points straight to Deriv's authorization handshake which generates the consent challenge
+      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URL)}`;
     }
   };
 
