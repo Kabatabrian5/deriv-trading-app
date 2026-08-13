@@ -11,10 +11,8 @@ export default function AuthPage() {
       // Redirect to Deriv Sign Up page
       window.location.href = 'https://home.deriv.com/dashboard/signup?residence=ke';
     } else {
-      // Redirect to Deriv OAuth / Sign In authorization flow so it returns to your site
-      const APP_ID = '34668T5a68zUtQACHU0u5';
-      const REDIRECT_URL = 'https://deriv-trading-app.vercel.app/app';
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${REDIRECT_URL}`;
+      // Redirect directly to the Deriv Login page
+      window.location.href = 'https://home.deriv.me/dashboard/login';
     }
   };
 
@@ -35,7 +33,7 @@ export default function AuthPage() {
           <p className="text-slate-400 text-sm mt-2">
             {isSignUp 
               ? 'Register a new account on Derivs platform.' 
-              : 'Authorize with your Deriv account to access your dashboard.'}
+              : 'Sign in to access your existing account.'}
           </p>
         </div>
 
@@ -65,14 +63,14 @@ export default function AuthPage() {
             onClick={handleAction}
             className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 group"
           >
-            <span>{isSignUp ? 'Proceed to Deriv Sign Up' : 'Authorize & Sign In'}</span>
+            <span>{isSignUp ? 'Proceed to Deriv Sign Up' : 'Proceed to Deriv Login'}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
         {/* Footer info */}
         <p className="text-center text-xs text-slate-500 mt-8">
-          Secured with official Deriv OAuth API integration.
+          Secured with official Deriv integration.
         </p>
       </div>
     </div>
