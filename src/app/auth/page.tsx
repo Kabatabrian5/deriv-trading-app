@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Update with your Deriv configuration or environment variables
 const DERIV_CONFIG = {
   app_id: process.env.NEXT_PUBLIC_DERIV_APP_ID || '34668T5a68zUtQACHU0u5',
 };
@@ -25,17 +24,14 @@ export default function AuthPage() {
     setError('');
 
     try {
-      // Connect to the base WebSocket endpoint without query parameters
-      const ws = new WebSocket('wss://ws.derivws.com/websockets/v3');
+      // Correct WebSocket URL format required by Deriv API gateway
+      const wsUrl = `wss://ws.derivws.com/websockets/v3?app_id=${DERIV_CONFIG.app_id}`;
+      const ws = new WebSocket(wsUrl);
 
       ws.onopen = () => {
-        // Send the app_id and token together in the authorization payload
         ws.send(
           JSON.stringify({
             authorize: token.trim(),
-            passthrough: {
-              app_id: DERIV_CONFIG.app_id,
-            },
           })
         );
       };
@@ -49,21 +45,18 @@ export default function AuthPage() {
             setLoading(false);
             ws.close();
           } else {
-            // Successfully authorized! Store token in localStorage
             localStorage.setItem('deriv_api_token', token.trim());
             localStorage.setItem('client_accounts', JSON.stringify(data.authorize.account_list || []));
             
             setLoading(false);
             ws.close();
-
-            // Redirect to the main dashboard workspace
             router.push('/dashboard');
           }
         }
       };
 
       ws.onerror = () => {
-        setError('Failed to connect to Deriv WebSocket gateway.');
+        setError('Failed to connect to Deriv WebSocket gateway. Check your network or App ID.');
         setLoading(false);
       };
 
