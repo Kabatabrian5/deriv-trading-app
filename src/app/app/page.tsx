@@ -56,7 +56,8 @@ export default function DashboardApp() {
 
   const initializeDerivWebSocket = (token: string) => {
     setWsStatus('Connecting...');
-    const ws = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=YOUR_APP_ID`);
+    const appId = process.env.NEXT_PUBLIC_DERIV_APP_ID || '34668T5a68zUtQACHU0u5';
+const ws = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${appId}`);
 
     ws.onopen = () => {
       ws.send(JSON.stringify({ authorize: token }));
