@@ -3,7 +3,6 @@ export const DERIV_CONFIG = {
   redirect_uri: 'https://deriv-trading-app.vercel.app/auth',
   // Official Deriv OAuth 2.0 authorization endpoint
   auth_url: 'https://auth.deriv.com/oauth2/auth',
-  ws_url: 'wss://ws.derivws.com/websockets/v3?app_id=34668T5a68zUtQACHU0u5',
 };
 
 export function getDerivLoginUrl(): string {
@@ -12,7 +11,8 @@ export function getDerivLoginUrl(): string {
     client_id: DERIV_CONFIG.app_id,
     app_id: DERIV_CONFIG.app_id,
     redirect_uri: DERIV_CONFIG.redirect_uri,
-    scope: 'trade account_management',
+    // Keep only the scope your app is registered for, or omit 'account_management' if it throws an error
+    scope: 'trade',
   });
   return `${DERIV_CONFIG.auth_url}?${params.toString()}`;
 }
