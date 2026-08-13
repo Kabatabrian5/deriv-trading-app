@@ -7,15 +7,15 @@ export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleAction = () => {
-    const APP_ID = '34668T5a68zUtQACHU0u5'; // Your Deriv App ID
+    const APP_ID = '34668T5a68zUtQACHU0u5';
     const REDIRECT_URL = 'https://deriv-trading-app.vercel.app/app';
 
     if (isSignUp) {
-      // Redirect to Deriv sign up page
-      window.location.href = 'https://home.deriv.com/dashboard/signup?residence=ke';
+      // Redirect to Deriv Sign Up page with registration prompt
+      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${REDIRECT_URL}&prompt=registration`;
     } else {
-      // Redirect to Deriv OAuth Authorization endpoint to show the consent screen
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&l=en&brand=deriv&redirect_uri=${REDIRECT_URL}`;
+      // Redirect to Deriv OAuth consent screen for login
+      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${REDIRECT_URL}`;
     }
   };
 
@@ -33,8 +33,8 @@ export default function AuthPage() {
           </h1>
           <p className="text-slate-400 text-sm mt-2">
             {isSignUp 
-              ? 'Register a new account on Deriv.' 
-              : 'Authorize securely through Deriv to access your dashboard.'}
+              ? 'Register a new account via official Deriv gateway.' 
+              : 'Authorize securely via Deriv OAuth to access your dashboard.'}
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export default function AuthPage() {
         </div>
 
         <p className="text-center text-xs text-slate-500 mt-8">
-          Secured with official Deriv OAuth integration.
+          Secured with official Deriv OAuth API integration.
         </p>
       </div>
     </div>
