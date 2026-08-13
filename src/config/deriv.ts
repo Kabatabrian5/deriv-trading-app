@@ -10,8 +10,6 @@ export function getDerivLoginUrl(): string {
   const params = new URLSearchParams({
     app_id: DERIV_CONFIG.app_id,
     redirect_uri: DERIV_CONFIG.redirect_uri,
-    l: 'EN',
-    brand: 'deriv',
   });
   return `${DERIV_CONFIG.auth_url}?${params.toString()}`;
 }
