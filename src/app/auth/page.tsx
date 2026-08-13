@@ -7,25 +7,23 @@ export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleAction = () => {
-    const APP_ID = '34668T5a68zUtQACHU0u5';
+    const APP_ID = '34668T5a68zUtQACHU0u5'; // Your Deriv App ID
     const REDIRECT_URL = 'https://deriv-trading-app.vercel.app/app';
 
     if (isSignUp) {
-      // Redirect to Deriv OAuth login with registration prompt enabled
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${REDIRECT_URL}&prompt=registration`;
+      // Redirect to Deriv sign up page
+      window.location.href = 'https://home.deriv.com/dashboard/signup?residence=ke';
     } else {
-      // Redirect to Deriv OAuth login endpoint so it authenticates and bounces back to your site
-      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${REDIRECT_URL}`;
+      // Redirect to Deriv OAuth Authorization endpoint to show the consent screen
+      window.location.href = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&l=en&brand=deriv&redirect_uri=${REDIRECT_URL}`;
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4">
-      {/* Background glow effect */}
       <div className="absolute w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl relative z-10">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 mb-4 border border-blue-500/30">
             <Shield className="w-6 h-6" />
@@ -35,12 +33,11 @@ export default function AuthPage() {
           </h1>
           <p className="text-slate-400 text-sm mt-2">
             {isSignUp 
-              ? 'Register a new account via official Deriv gateway.' 
-              : 'Sign in securely via Deriv OAuth to access your dashboard.'}
+              ? 'Register a new account on Deriv.' 
+              : 'Authorize securely through Deriv to access your dashboard.'}
           </p>
         </div>
 
-        {/* Toggle Tabs */}
         <div className="flex bg-slate-950 p-1 rounded-xl mb-8 border border-slate-800">
           <button
             onClick={() => setIsSignUp(false)}
@@ -60,20 +57,18 @@ export default function AuthPage() {
           </button>
         </div>
 
-        {/* Action Button */}
         <div className="space-y-4">
           <button
             onClick={handleAction}
             className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 group"
           >
-            <span>{isSignUp ? 'Continue to Deriv Sign Up' : 'Continue with Deriv Sign In'}</span>
+            <span>{isSignUp ? 'Proceed to Deriv Sign Up' : 'Authorize with Deriv'}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
-        {/* Footer info */}
         <p className="text-center text-xs text-slate-500 mt-8">
-          Secured with official Deriv OAuth API integration.
+          Secured with official Deriv OAuth integration.
         </p>
       </div>
     </div>
