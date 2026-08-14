@@ -34,30 +34,31 @@ export default function DashboardApp() {
     }
 
     if (extractedAccounts.length > 0) {
-      sessionStorage.setItem('deriv_accounts', JSON.stringify(extractedAccounts));
+      setAccounts(extractedAccounts);
+      sessionStorage.setItem('algonex_accounts', JSON.stringify(extractedAccounts));
       const defaultAcc = extractedAccounts[0];
       setSelectedAccount(defaultAcc);
       
       window.history.replaceState({}, document.title, window.location.pathname);
-      initializeDerivWebSocket(defaultAcc.token);
+      initializeWebSocket(defaultAcc.token);
     } else {
-      const savedAccounts = sessionStorage.getItem('deriv_accounts');
+      const savedAccounts = sessionStorage.getItem('algonex_accounts');
       if (savedAccounts) {
         const parsed: Account[] = JSON.parse(savedAccounts);
         setAccounts(parsed);
         if (parsed.length > 0) {
           setSelectedAccount(parsed[0]);
-          initializeDerivWebSocket(parsed[0].token);
+          initializeWebSocket(parsed[0].token);
         }
       }
     }
-    setAccounts(extractedAccounts);
   }, []);
 
-  const initializeDerivWebSocket = (token: string) => {
+  const initializeWebSocket = (token: string) => {
     setWsStatus('Connecting...');
-    const appId = process.env.NEXT_PUBLIC_DERIV_APP_ID || '34668T5a68zUtQACHU0u5';
-const ws = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${appId}`);
+    // Updated to match your exact env variable name and correct app ID fallback
+    const appId = process.env.NEXT_PUBLIC_DERIV_APP_ID || '346TpYeuY3fF5iCG2UgEd';
+    const ws = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${appId}`);
 
     ws.onopen = () => {
       ws.send(JSON.stringify({ authorize: token }));
@@ -83,7 +84,7 @@ const ws = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${appId}`);
   return (
     <div className="p-6 bg-[#0b0e14] min-h-screen text-slate-200 font-mono">
       <div className="max-w-4xl mx-auto bg-[#12161f] border border-slate-800 rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">Deriv Legacy Session Handler</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">AlgoNex Session Handler</h2>
         
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">

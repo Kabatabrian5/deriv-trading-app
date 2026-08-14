@@ -1,18 +1,16 @@
 export const DERIV_CONFIG = {
-  app_id: process.env.NEXT_PUBLIC_DERIV_APP_ID || '34668T5a68zUtQACHU0u5',
-  redirect_uri: 'https://deriv-trading-app.vercel.app/auth',
+  app_id: process.env.NEXT_PUBLIC_DERIV_APP_ID || '346TpYeuY3fF5iCG2UgEd',
+  redirect_uri: 'https://algonex-app.vercel.app/',
   // Official Deriv OAuth 2.0 authorization endpoint
   auth_url: 'https://auth.deriv.com/oauth2/auth',
 };
 
 export function getDerivLoginUrl(): string {
   const params = new URLSearchParams({
-    response_type: 'code',
-    client_id: DERIV_CONFIG.app_id,
     app_id: DERIV_CONFIG.app_id,
     redirect_uri: DERIV_CONFIG.redirect_uri,
-    // Keep only the scope your app is registered for, or omit 'account_management' if it throws an error
-    scope: 'trade',
+    l: 'en',
+    brand: 'deriv',
   });
   return `${DERIV_CONFIG.auth_url}?${params.toString()}`;
 }

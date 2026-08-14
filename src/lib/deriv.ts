@@ -35,7 +35,7 @@ export class DerivWS {
   private ws: WebSocket | null = null;
   private appId: string;
 
-  constructor(appId: string = '1089') {
+  constructor(appId: string = process.env.NEXT_PUBLIC_DERIV_APP_ID || '346TpYeuY3fF5iCG2UgEd') {
     this.appId = appId;
   }
 

@@ -17,7 +17,7 @@ export default function LandingPage() {
         onClick={handleLoginClick}
         className="px-6 py-3 font-semibold text-slate-950 bg-amber-500 rounded-xl hover:bg-amber-400 transition-all"
       >
-        Sign in with Deriv
+        Sign In & Start Trading
       </button>
     </div>
   );

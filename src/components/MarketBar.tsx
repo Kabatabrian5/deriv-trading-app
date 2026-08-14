@@ -1,3 +1,4 @@
+// src/components/MarketBar.tsx
 'use client';
 
 interface Props {
@@ -17,21 +18,21 @@ const INDICES = [
 
 export default function MarketBar({ activeSymbol, onSelectSymbol }: Props) {
   return (
-    <div className="w-full bg-slate-50 border-b border-slate-200 py-3 px-6">
+    <div className="w-full bg-[#12161f] border-b border-slate-800/80 py-3 px-6">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Select Index:</span>
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-3 w-full overflow-x-auto">
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono whitespace-nowrap">Select Index:</span>
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1">
             {INDICES.map((idx) => {
               const isActive = activeSymbol === idx.id;
               return (
                 <button
                   key={idx.id}
                   onClick={() => onSelectSymbol(idx.id)}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition whitespace-nowrap ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      ? 'bg-red-600 text-white shadow-lg shadow-red-600/20'
+                      : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
                   {idx.label}
