@@ -1,184 +1,84 @@
-'tsx'
 import React from 'react';
+import Link from 'next/link';
 
-export default function DashboardPage() {
+export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#0b0e14] text-gray-200 flex flex-col font-sans">
       
-      {/* 1. Top Navigation Bar */}
-      <header className="bg-[#121620] border-b border-gray-800 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-8">
-          <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 bg-red-500 rounded-full inline-block"></span>
-            <span className="text-xl font-bold tracking-wide text-white">AlgonexTrading</span>
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <a href="#" className="text-emerald-400 border-b-2 border-emerald-400 pb-1">Trading Bots</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">Dashboard</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">Bot Builder</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">Charts</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">Digit Analysis</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">Copytrading</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">AI Tools</a>
-            <a href="#" className="text-gray-400 hover:text-white transition">AI Chat</a>
-          </nav>
+      {/* 1. Header Navigation */}
+      <header className="border-b border-gray-800 px-8 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
+        <div className="flex items-center space-x-2">
+          <span className="w-3 h-3 bg-red-500 rounded-full inline-block"></span>
+          <span className="text-xl font-bold tracking-wide text-white">AlgonexTrading</span>
         </div>
-
-        {/* User Profile / Logout status */}
         <div className="flex items-center space-x-4">
-          <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full">
-            Mock Mode Active
-          </span>
-          <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-white text-sm">
-            BK
-          </div>
+          <Link 
+            href="/dashboard" 
+            className="text-sm font-medium text-gray-300 hover:text-white px-4 py-2 transition"
+          >
+            Log in
+          </Link>
+          <Link 
+            href="/dashboard" 
+            className="text-sm font-medium bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg transition shadow-lg shadow-emerald-900/20"
+          >
+            Sign up
+          </Link>
         </div>
       </header>
 
-      {/* 2. Main Workspace Layout */}
-      <div className="flex flex-1 overflow-hidden">
+      {/* 2. Hero Section */}
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-20 max-w-4xl mx-auto">
+        <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full text-emerald-400 text-xs font-semibold mb-6">
+          <span>⚡ Advanced Algorithmic Trading & Synthetics</span>
+        </div>
         
-        {/* Left / Center Content: Trading Bots Grid */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-white mb-1">Premium Trading Bots</h1>
-            <p className="text-sm text-gray-400">Select and load an algorithmic strategy directly into your Bot Builder.</p>
+        <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+          Automate Your Strategy with <span className="text-emerald-400">Algonex</span>
+        </h1>
+        
+        <p className="text-lg text-gray-400 max-w-2xl mb-10">
+          Build, load, and run high-performance trading bots optimized for synthetic volatility indices and digital options. Trade smarter with built-in AI insights.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full justify-center">
+          <Link 
+            href="/dashboard" 
+            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-3.5 rounded-xl text-base transition shadow-xl shadow-emerald-900/30 text-center"
+          >
+            Get Started — Launch App
+          </Link>
+          <a 
+            href="#features" 
+            className="w-full sm:w-auto bg-[#161b22] hover:bg-[#1f2630] text-gray-300 font-medium px-8 py-3.5 rounded-xl text-base border border-gray-800 transition text-center"
+          >
+            Explore Features
+          </a>
+        </div>
+      </main>
+
+      {/* 3. Features Section Preview */}
+      <section id="features" className="border-t border-gray-800 bg-[#0e1218] py-20 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-[#121620] border border-gray-800 p-6 rounded-2xl">
+            <div className="text-emerald-400 text-xl font-bold mb-3">🤖 Algorithmic Bots</div>
+            <p className="text-sm text-gray-400">Deploy tested automated bots designed to capitalize on volatility and trend shifts smoothly.</p>
           </div>
-
-          {/* Search bar */}
-          <div className="mb-6">
-            <input 
-              type="text" 
-              placeholder="Search bots..." 
-              className="w-full md:w-96 bg-[#161b22] border border-gray-800 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
-            />
+          <div className="bg-[#121620] border border-gray-800 p-6 rounded-2xl">
+            <div className="text-emerald-400 text-xl font-bold mb-3">📊 Advanced Analytics</div>
+            <p className="text-sm text-gray-400">Track real-time performance, contracts won/lost, and deep trade metrics directly on your dashboard.</p>
           </div>
-
-          {/* Bot Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            {/* Card 1 */}
-            <div className="bg-[#121620] border border-gray-800 rounded-xl p-5 flex flex-col justify-between hover:border-gray-700 transition">
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white text-base">Auto Bot by Algonex 🐂</h3>
-                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">88%</span>
-                </div>
-                <p className="text-sm text-gray-400 mb-6">High-performance algorithmic trading bot optimized for consistent markets.</p>
-              </div>
-              <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-sm transition">
-                Load Bot
-              </button>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-[#121620] border border-gray-800 rounded-xl p-5 flex flex-col justify-between hover:border-gray-700 transition">
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white text-base">EVEN ODD MYTH V1</h3>
-                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">89%</span>
-                </div>
-                <p className="text-sm text-gray-400 mb-6">High-performance algorithmic trading bot optimized for consistent markets.</p>
-              </div>
-              <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-sm transition">
-                Load Bot
-              </button>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-[#121620] border border-gray-800 rounded-xl p-5 flex flex-col justify-between hover:border-gray-700 transition">
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white text-base">EVEN ODD MYTH V2</h3>
-                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">90%</span>
-                </div>
-                <p className="text-sm text-gray-400 mb-6">High-performance algorithmic trading bot optimized for consistent markets.</p>
-              </div>
-              <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-sm transition">
-                Load Bot
-              </button>
-            </div>
-
-            {/* Card 4 */}
-            <div className="bg-[#121620] border border-gray-800 rounded-xl p-5 flex flex-col justify-between hover:border-gray-700 transition">
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white text-base">Even Odd Switcher II</h3>
-                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">83%</span>
-                </div>
-                <p className="text-sm text-gray-400 mb-6">High-performance algorithmic trading bot optimized for consistent markets.</p>
-              </div>
-              <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-sm transition">
-                Load Bot
-              </button>
-            </div>
-
+          <div className="bg-[#121620] border border-gray-800 p-6 rounded-2xl">
+            <div className="text-emerald-400 text-xl font-bold mb-3">✨ AI Integration</div>
+            <p className="text-sm text-gray-400">Leverage AI tools and automated analysis helpers to evaluate market conditions on the fly.</p>
           </div>
-        </main>
+        </div>
+      </section>
 
-        {/* Right Side Control Panel */}
-        <aside className="w-96 bg-[#121620] border-l border-gray-800 flex flex-col justify-between p-5">
-          <div>
-            {/* Run Button Row */}
-            <div className="flex items-center justify-between mb-4 bg-[#161b22] p-3 rounded-xl border border-gray-800">
-              <button className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 rounded-lg text-sm flex items-center space-x-2 transition shadow-lg shadow-emerald-900/20">
-                <span>▶ Run</span>
-              </button>
-              <span className="text-xs text-gray-400 font-medium">Bot is not running</span>
-            </div>
-
-            {/* Sub-tabs: Summary, Transactions, etc. */}
-            <div className="flex space-x-4 border-b border-gray-800 text-xs font-medium pb-2 mb-4 text-gray-400">
-              <span className="text-emerald-400 border-b-2 border-emerald-400 pb-2 cursor-pointer">Summary</span>
-              <span className="hover:text-white cursor-pointer">Transactions</span>
-              <span className="hover:text-white cursor-pointer">AI Analysis</span>
-              <span className="hover:text-white cursor-pointer">Journal</span>
-            </div>
-
-            {/* Log / Activity Placeholder */}
-            <div className="h-64 bg-[#161b22] border border-gray-800 rounded-xl p-4 flex items-center justify-center text-center text-xs text-gray-500 mb-6">
-              When you're ready to trade, hit <strong className="text-gray-300 mx-1">Run</strong>. You’ll be able to track your bot's performance here.
-            </div>
-          </div>
-
-          {/* Metrics Footer */}
-          <div>
-            <div className="grid grid-cols-3 gap-3 mb-4 text-center">
-              <div className="bg-[#161b22] p-2.5 rounded-lg border border-gray-800">
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider">Total stake</div>
-                <div className="text-sm font-bold text-white mt-0.5">0.00 USD</div>
-              </div>
-              <div className="bg-[#161b22] p-2.5 rounded-lg border border-gray-800">
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider">Total payout</div>
-                <div className="text-sm font-bold text-white mt-0.5">0.00 USD</div>
-              </div>
-              <div className="bg-[#161b22] p-2.5 rounded-lg border border-gray-800">
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider">No. of runs</div>
-                <div className="text-sm font-bold text-white mt-0.5">0</div>
-              </div>
-
-              <div className="bg-[#161b22] p-2.5 rounded-lg border border-gray-800">
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider">Contracts lost</div>
-                <div className="text-sm font-bold text-red-400 mt-0.5">0</div>
-              </div>
-              <div className="bg-[#161b22] p-2.5 rounded-lg border border-gray-800">
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider">Contracts won</div>
-                <div className="text-sm font-bold text-emerald-400 mt-0.5">0</div>
-              </div>
-              <div className="bg-[#161b22] p-2.5 rounded-lg border border-gray-800">
-                <div className="text-[10px] text-gray-400 uppercase tracking-wider">Profit/loss</div>
-                <div className="text-sm font-bold text-white mt-0.5">0.00 USD</div>
-              </div>
-            </div>
-
-            <button className="w-full bg-[#1b222d] hover:bg-[#212a38] text-gray-300 font-medium py-2.5 rounded-lg text-sm border border-gray-800 transition">
-              Reset
-            </button>
-          </div>
-        </aside>
-
-      </div>
+      {/* Footer */}
+      <footer className="border-t border-gray-800 py-6 text-center text-xs text-gray-500">
+        © 2026 Algonex Trading Hub. All rights reserved.
+      </footer>
     </div>
   );
 }
